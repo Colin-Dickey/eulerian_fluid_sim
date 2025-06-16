@@ -2,7 +2,7 @@
  // @ Author: Colin Dickey
  // @ Create Time: 2025-06-15 16:35:46
  // @ Modified by: Colin Dickey
- // @ Modified time: 2025-06-15 17:14:40
+ // @ Modified time: 2025-06-16 15:59:57
  // @ Description: Main file for the eulerian fluid simulator.
 //
 #include<iostream>
@@ -13,9 +13,10 @@
 
 int main()
 {
+    float fps_max = 60.f;
     int screen_width = 1600;
     int screen_height = 1000;
-    float fixed_dt = 0.0167f;
+    float fixed_dt = 1 / fps_max;
 
     sf::Font font;
     font.loadFromFile("C:/Windows/Fonts/arial.ttf");
@@ -29,35 +30,12 @@ int main()
     text_stats.setPosition(10.f,10.f);
 
     sf::Clock clock;
-    float accumulator = .0f;
-    float dt = .0f;
-  
-    sf::Clock fps_clock;
-    float fps = .0f;
-    int frame_count = 0;
+    sf::Clock clock_fps;
+    int frame_counter = 0;
 
     while(window.isOpen())
     {
         sf::Event event;
-        dt = clock.restart().asSeconds();
-        accumulator += dt;
-
-        frame_count++;
-        if(fps_clock.getElapsedTime().asSeconds() >= 1.f)
-        {
-            fps = frame_count / fps_clock.restart().asSeconds();
-            frame_count = 0;
-        }
-
-        std::ostringstream oss;
-        oss << std::fixed << std::setprecision(1)
-            << "FPS: " << fps << "\n";
-            text_stats.setString(oss.str());
-
-        window.clear();
-        window.draw(text_stats);
-        window.display();
-
         while(window.pollEvent(event))
         {
             if(event.type == sf::Event::Closed)
@@ -65,6 +43,29 @@ int main()
                 window.close();
             }
         }
+        
+        frame_counter++;
+        //Updates FPS every second
+        if(clock_fps.getElapsedTime().asSeconds() >= 1)
+        {
+            std::ostringstream oss;
+            oss << std::fixed << std::setprecision(1)
+                << "FPS: " << (frame_counter) << "\n";
+            
+            text_stats.setString(oss.str());
+            window.draw(text_stats);
+            
+            clock_fps.restart();
+            frame_counter = 0;
+        }
+
+        window.clear();
+        //Renders Scene
+
+        window.draw(text_stats);
+        window.display();
+
+
     }
 
     return 0;
