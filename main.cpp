@@ -2,7 +2,7 @@
  // @ Author: Colin Dickey
  // @ Create Time: 2025-06-15 16:35:46
  // @ Modified by: Colin Dickey
- // @ Modified time: 2025-06-17 15:35:45
+ // @ Modified time: 2025-06-17 17:43:31
  // @ Description: Main file for the eulerian fluid simulator.
 //
 #include<iostream>
@@ -15,11 +15,11 @@
 
 int main()
 {
-    float fps_max = 60.f;
     int screen_width = 1600;
     int screen_height = 1000;
     int cell_size = 40;
-    float fixed_dt = 1 / fps_max;
+    const float fixed_time_step = 1/30.f;
+    const float gravity = 9.81;
 
     sf::Font font;
     font.loadFromFile("C:/Windows/Fonts/arial.ttf");
@@ -32,19 +32,11 @@ int main()
     {
         for(int x = 0; x < screen_width / cell_size; x ++)
         {
-            cells.emplace_back(sf::Vector2i(x,y), cell_size);
+            cells.emplace_back(sf::Vector2i(x,y), cell_size, sf::Vector2f(0, 0));
         }
     }
 
-    sf::Text text_stats;
-    text_stats.setFont(font);
-    text_stats.setCharacterSize(14);
-    text_stats.setFillColor(sf::Color::Cyan);
-    text_stats.setPosition(10.f,10.f);
-
     sf::Clock clock;
-    sf::Clock clock_fps;
-    int frame_counter = 0;
 
     while(window.isOpen())
     {
@@ -56,27 +48,16 @@ int main()
                 window.close();
             }
         }
-        
-        frame_counter++;
-        //Updates FPS every second
-        if(clock_fps.getElapsedTime().asSeconds() >= 1)
-        {
-            std::ostringstream oss;
-            oss << std::fixed << std::setprecision(1)
-                << "FPS: " << (frame_counter) << "\n";
-            
-            text_stats.setString(oss.str());
-            
-            clock_fps.restart();
-            frame_counter = 0;
-        }
 
-        sf::Vector2i mouse_pixel_pos = sf::Mouse::getPosition(window);
-        sf::Vector2f mouse_world_pos = window.mapPixelToCoords(mouse_pixel_pos);
-
-        for(auto& cell : cells)
+        //Velocity Updater
+        if(clock.getElapsedTime().asSeconds() >= fixed_time_step)
         {
-            cell.update_direction(mouse_world_pos);
+            for(auto& cell : cells)
+            {
+                std::cout<<fixed_time_step<<" "<<gravity<<"\n";
+                cell.update_velocity(fixed_time_step, gravity);
+            }
+            clock.restart();
         }
 
         window.clear();
@@ -87,7 +68,6 @@ int main()
             window.draw(cell);
         }
 
-        window.draw(text_stats);
         window.display();
 
     }
