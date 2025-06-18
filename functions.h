@@ -2,7 +2,7 @@
  // @ Author: Colin Dickey
  // @ Create Time: 2025-06-16 16:02:05
  // @ Modified by: Colin Dickey
- // @ Modified time: 2025-06-18 12:33:11
+ // @ Modified time: 2025-06-18 14:02:57
  // @ Description: This is a header file for an object "cell" which should contain a velocity vector or a unit velocity vector and a speed
 //
 
@@ -18,6 +18,8 @@ void render(std::vector<Cell>& cells, sf::RenderWindow& window);
 
 std::vector<Cell> cells_setup(float screen_height, float screen_width, int cell_size);
 
-void physics_update(std::vector<Cell>& cells, float diff, float dt);
+void physics_update(std::vector<Cell>& cells, float diff, float dt, int grid_size);
+
+void diffuse(std::vector<Cell>& cells, float diff, float dt, int grid_size);
 
 #endif

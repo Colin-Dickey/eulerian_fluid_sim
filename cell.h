@@ -2,7 +2,7 @@
  // @ Author: Colin Dickey
  // @ Create Time: 2025-06-16 16:02:05
  // @ Modified by: Colin Dickey
- // @ Modified time: 2025-06-18 12:40:10
+ // @ Modified time: 2025-06-18 13:11:29
  // @ Description: This is a header file for an object "cell" which should contain a velocity vector or a unit velocity vector and a speed
 //
 
@@ -12,8 +12,6 @@
 #include<SFML/Graphics.hpp>
 #include<cmath>
 #include<iostream>
-
-#define IX(i, j) ((i) + (n + 2) * (j))
 
 class Cell : public sf::Drawable
 {

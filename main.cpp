@@ -2,7 +2,7 @@
  // @ Author: Colin Dickey
  // @ Create Time: 2025-06-15 16:35:46
  // @ Modified by: Colin Dickey
- // @ Modified time: 2025-06-18 12:58:17
+ // @ Modified time: 2025-06-18 15:13:44
  // @ Description: Main file for the eulerian fluid simulator.
 //
 #include<iostream>
@@ -21,7 +21,8 @@ int main()
     float cell_size = 20.f;
     const float fixed_time_step = 1/30.f;
     const float gravity = 9.81;
-    const float diffusion_rate = 0.001f;
+    const float diffusion_rate = 0.000011f;
+    int grid_size = screen_width / cell_size - 2;
 
     sf::Font font;
     font.loadFromFile("C:/Windows/Fonts/arial.ttf");
@@ -52,12 +53,9 @@ int main()
         }
 
         //physics_update(cells, diffusion_rate, fixed_time_step);
-        if(clock.getElapsedTime().asSeconds() >= 1.f)
+        if(clock.getElapsedTime().asSeconds() >= fixed_time_step)
         {
-            for(auto& cell : cells)
-            {
-                std::cout<<cell.density<<" ";
-            }
+            physics_update(cells, diffusion_rate, fixed_time_step, grid_size);
             render(cells, window);
         }
 
