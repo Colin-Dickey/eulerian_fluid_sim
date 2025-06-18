@@ -6,6 +6,8 @@
             "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
             "args": [
                 "main.cpp",
+                "cell.cpp",
+                "functions.cpp",
                 "-IC:/msys64/ucrt64/include",
                 "-LC:/msys64/ucrt64/lib",
                 "-lsfml-graphics",

@@ -2,7 +2,7 @@
  // @ Author: Colin Dickey
  // @ Create Time: 2025-06-15 16:35:46
  // @ Modified by: Colin Dickey
- // @ Modified time: 2025-06-17 17:43:31
+ // @ Modified time: 2025-06-18 12:58:17
  // @ Description: Main file for the eulerian fluid simulator.
 //
 #include<iostream>
@@ -12,29 +12,31 @@
 #include<iomanip>
 #include<cmath>
 #include"cell.h"
+#include"functions.h"
 
 int main()
 {
-    int screen_width = 1600;
+    int screen_width = 1000;
     int screen_height = 1000;
-    int cell_size = 40;
+    float cell_size = 20.f;
     const float fixed_time_step = 1/30.f;
     const float gravity = 9.81;
+    const float diffusion_rate = 0.001f;
 
     sf::Font font;
     font.loadFromFile("C:/Windows/Fonts/arial.ttf");
 
     sf::RenderWindow window(sf::VideoMode(screen_width, screen_height), "FluidSim");
 
+    // Set coordinate system with +Y up
+    sf::View view(sf::FloatRect(0, 0, screen_width, screen_height));
+    view.setCenter(screen_width / 2.f, screen_height / 2.f);
+    view.setSize(screen_width, -screen_height);  // This flips Y
+
+    window.setView(view);
+
     //Creates grid of line cells
-    std::vector<Cell> cells;
-    for(int y = 0; y < screen_height / cell_size; y ++)
-    {
-        for(int x = 0; x < screen_width / cell_size; x ++)
-        {
-            cells.emplace_back(sf::Vector2i(x,y), cell_size, sf::Vector2f(0, 0));
-        }
-    }
+    std::vector<Cell> cells = cells_setup(screen_height, screen_width, cell_size);
 
     sf::Clock clock;
 
@@ -49,26 +51,15 @@ int main()
             }
         }
 
-        //Velocity Updater
-        if(clock.getElapsedTime().asSeconds() >= fixed_time_step)
+        //physics_update(cells, diffusion_rate, fixed_time_step);
+        if(clock.getElapsedTime().asSeconds() >= 1.f)
         {
             for(auto& cell : cells)
             {
-                std::cout<<fixed_time_step<<" "<<gravity<<"\n";
-                cell.update_velocity(fixed_time_step, gravity);
+                std::cout<<cell.density<<" ";
             }
-            clock.restart();
+            render(cells, window);
         }
-
-        window.clear();
-
-        //Renders Scene
-        for(const auto& cell : cells)
-        {
-            window.draw(cell);
-        }
-
-        window.display();
 
     }
 
