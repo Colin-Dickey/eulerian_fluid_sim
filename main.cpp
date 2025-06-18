@@ -2,7 +2,7 @@
  // @ Author: Colin Dickey
  // @ Create Time: 2025-06-15 16:35:46
  // @ Modified by: Colin Dickey
- // @ Modified time: 2025-06-18 15:13:44
+ // @ Modified time: 2025-06-18 15:21:10
  // @ Description: Main file for the eulerian fluid simulator.
 //
 #include<iostream>
@@ -18,10 +18,10 @@ int main()
 {
     int screen_width = 1000;
     int screen_height = 1000;
-    float cell_size = 20.f;
+    float cell_size = 2.f;
     const float fixed_time_step = 1/30.f;
     const float gravity = 9.81;
-    const float diffusion_rate = 0.000011f;
+    const float diffusion_rate = 0.00002f;
     int grid_size = screen_width / cell_size - 2;
 
     sf::Font font;

@@ -2,7 +2,7 @@
  // @ Author: Colin Dickey
  // @ Create Time: 2025-06-16 16:02:05
  // @ Modified by: Colin Dickey
- // @ Modified time: 2025-06-18 13:11:29
+ // @ Modified time: 2025-06-18 15:19:23
  // @ Description: This is a header file for an object "cell" which should contain a velocity vector or a unit velocity vector and a speed
 //
 
@@ -38,7 +38,7 @@ class Cell : public sf::Drawable
         square.setPosition(sf::Vector2f(cell_size * index.x, cell_size * index.y));
         square.setFillColor(sf::Color(50, 50, 50));
         square.setOutlineThickness(1);
-        square.setOutlineColor(sf::Color(100, 100, 100));
+        square.setOutlineColor(sf::Color(50, 50, 50));
     }
 
     private:

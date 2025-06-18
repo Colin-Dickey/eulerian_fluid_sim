@@ -2,7 +2,7 @@
  // @ Author: Colin Dickey
  // @ Create Time: 2025-06-18 12:08:27
  // @ Modified by: Colin Dickey
- // @ Modified time: 2025-06-18 15:11:54
+ // @ Modified time: 2025-06-18 15:19:57
  // @ Description: Functions to debloat main
 //
 
@@ -22,12 +22,14 @@ void render(std::vector<Cell>& cells, sf::RenderWindow& window)
         int intensity = static_cast<int>(cell.density * 255);
 
         cell.square.setFillColor(sf::Color(intensity, intensity, intensity));
+        cell.square.setOutlineColor(sf::Color(intensity, intensity, intensity));
         window.draw(cell.square);
     }
 
     for(auto& cell : cells)
     {
-        window.draw(cell.line);
+        //window.draw(cell.line);
+        continue;
     }
 
     window.display();
